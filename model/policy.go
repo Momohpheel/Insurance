@@ -14,7 +14,7 @@ type GoodInTransit struct {
 	Name                    string  `json:"name"`
 	Address                 string  `json:"address"`
 	Occupation              string  `json:"occupation"`
-	Phone                   string  `json:"phone"`
+	Phone                   uint64  `json:"phone"`
 	Email                   string  `json:"email"`
 	TypeOfGoods             string  `json:"type_of_goods"`
 	NatureOfGoods           string  `json:"nature_of_goods"`
@@ -48,6 +48,6 @@ type Shuttlers struct {
 	Email            string `json:"email"`
 	NextOfKin        string `json:"next_of_kin"`
 	NextOfKinAddress string `json:"next_of_kin_address"`
-	NextOfKinPhone   string `json:"next_of_kin_phone"`
+	NextOfKinPhone   uint64 `json:"next_of_kin_phone"`
 	gorm.Model
 }

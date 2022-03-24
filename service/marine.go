@@ -5,8 +5,13 @@ import (
 
 	"github.com/eze-insurance/database"
 	"github.com/eze-insurance/model"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
+
+var validate = validator.New()
+
+var errors []string
 
 func CreateMarinePolicy(c *fiber.Ctx) error {
 
@@ -16,6 +21,21 @@ func CreateMarinePolicy(c *fiber.Ctx) error {
 
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	err = validate.Struct(marine)
+
+	if err != nil {
+
+		for _, err := range err.(validator.ValidationErrors) {
+
+			errormsg := err.StructNamespace() + " " + err.Tag()
+			errors = append(errors, errormsg)
+		}
+
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(&fiber.Map{
+			"error":  errors,
+			"status": false})
 	}
 
 	var invoice float64
