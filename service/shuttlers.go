@@ -7,7 +7,23 @@ import (
 	"github.com/eze-insurance/model"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	mail "github.com/xhit/go-simple-mail/v2"
 )
+
+const (
+	Philip = "Philip"
+)
+
+var htmlBody = `
+		<html>
+			<head>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<title>Hello, World</title>
+			</head>
+			<body>
+				<p>This is an email using Go</p>
+			</body>
+		`
 
 func CreateShuttlersPolicy(c *fiber.Ctx) error {
 	shuttlers := new(model.ShuttlersRequest)
@@ -54,6 +70,23 @@ func CreateShuttlersPolicy(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"error":  result.Error,
 			"status": false})
+	}
+
+	// Create email
+	email := mail.NewMSG()
+	email.SetFrom("From Me <me@host.com>")
+	email.AddTo("you@example.com")
+	//email.AddCc("another_you@example.com")
+	email.SetSubject("New Go Email")
+
+	email.SetBody(mail.TextHTML, htmlBody)
+	email.AddAttachment("super_cool_file.png")
+
+	// Send email
+	err = email.Send(MailService())
+
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
