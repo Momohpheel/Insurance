@@ -80,7 +80,7 @@ func CreateShuttlersPolicy(c *fiber.Ctx) error {
 	email.SetSubject("New Go Email")
 
 	email.SetBody(mail.TextHTML, htmlBody)
-	email.AddAttachment("super_cool_file.png")
+	//email.AddAttachment("super_cool_file.png")
 
 	// Send email
 	err = email.Send(MailService())

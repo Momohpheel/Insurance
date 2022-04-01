@@ -12,4 +12,5 @@ func Routes(app *fiber.App) {
 	route.Post("/all-risk", service.CreateAllRiskPolicy)
 	route.Post("/goods", service.CreateGoodsInTransitPolicy)
 	route.Post("/shuttlers", service.CreateShuttlersPolicy)
+	route.Post("/jokes", service.Jokes)
 }
